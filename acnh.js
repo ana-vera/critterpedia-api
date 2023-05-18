@@ -6,10 +6,13 @@ var uriBugIcon = 'http://acnhapi.com/v1/icons/bugs/';
 //--- These are the HTML elements of the main card, where all info is displayed
 var image = document.getElementById("image");
 var name = document.getElementById("name");
-var months = document.getElementById("months");
-var time = document.getElementById("time");
+var monthsHTML = document.getElementById("months");
+var timeHTML = document.getElementById("time");
 var location = document.getElementById("location");
 var rarity = document.getElementById("rarity");
+var insectInput = document.getElementById("insect").value;
+var insectStr = insectInput.replaceAll(" ","_"); 
+
 
 //--- Detects clicks on search button. Pulls up info card.
 document.getElementById("search-button").addEventListener("click",getBug);
@@ -21,15 +24,13 @@ document.getElementById("search-history").addEventListener('click', function ( e
 } );
 
 
-async function getBug(insectInput){
-    var insectInput = document.getElementById("insect").value;
-    var insectStr = insectInput.replaceAll(" ","_"); 
-//--- the variable 'insect' could be either a string e.g. "atlas_moth" or an id number e.g. 14
-    fetch(uriBugInfo + insectStr + "/")
-    .then(result => {
-        return result.json();
-        
-    }).then(data => {
+async function getBug(){
+    insectInput = document.getElementById("insect").value;
+    insectStr = insectInput.replaceAll(" ","_");
+    //--- the variable 'insect' could be either a string e.g. "atlas_moth" or an id number e.g. 14
+    const response = await fetch(uriBugInfo + insectStr + "/")
+    const data = await response.json()
+
         //--- CSS classes are used to show the card with info, and hide the error msg when all is good
         document.getElementById("mainCard").className="show";
         document.getElementById("error").className="hide";
@@ -41,20 +42,18 @@ async function getBug(insectInput){
         location.innerText = data.availability["location"];
         rarity.innerText = data.availability["rarity"];
 
-        //months.innerText = data.availability["isAllYear"];
-
-        //getTime(months, "month-northern", "isAllYear", "All year round");
-        //getTime(time, "time", "isAllDay", "Any time of the day");
+        await getTime(monthsHTML, "month-northern", "isAllYear", "All year round");
+        await getTime(timeHTML, "time", "isAllDay", "Any time of the day");
         
 
         //---Finally we add the insect icon to the search history :)
         getBugIcon(data.id, data.name["name-USen"]);
 
-    })}
+    }
 
 //If it's all day or all year, display text to indicate so. Else, we need to display months/hrs in a user-friendly way
 async function getTime(htmlElement, timeKey, booleanKey, displayText) {
-    fetch(uriBugInfo + insect + "/")
+    fetch(uriBugInfo + insectStr + "/")
     .then(result => {
         return result.json();
     }).then(data => {
@@ -66,7 +65,7 @@ async function getTime(htmlElement, timeKey, booleanKey, displayText) {
             else 
             {   htmlElement.innerText = data.availability[timeKey];   }
         }
-    })
+    }).catch(error=>{console.log(error);})
 }
 
 async function getBugIcon(id,name){
