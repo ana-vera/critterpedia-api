@@ -15,18 +15,19 @@ var insectStr = insectInput.replaceAll(" ","_");
 
 
 //--- Detects clicks on search button. Pulls up info card.
-document.getElementById("search-button").addEventListener("click",getBug);
+document.getElementById("search-button").addEventListener("click",function (event) {
+    let insect = document.getElementById("insect").value
+    getBug(insect);})
 
 //--- Detects clicks on insect icons shown in search history. Pulls up corresponding info card.
 document.getElementById("search-history").addEventListener('click', function ( event ) {
-    let id = event.target.id;
-    getBug(id);
+    let insectId = event.target.id;
+    getBug(insectId);
 } );
 
 
-async function getBug(){
-    insectInput = document.getElementById("insect").value;
-    insectStr = insectInput.replaceAll(" ","_");
+async function getBug(insect){
+    insectStr = insect.replaceAll(" ","_");
     //--- the variable 'insect' could be either a string e.g. "atlas_moth" or an id number e.g. 14
     const response = await fetch(uriBugInfo + insectStr + "/")
     const data = await response.json()
