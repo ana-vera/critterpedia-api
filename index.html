@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critterpedia - Northern Hemisphere</title>
+    <link rel="stylesheet" href="index.css">
+    <script type="module" src="./acnh.js"></script>
+</head>
+<body>
+    <main>
+        <h1>Critterpedia</h1>
+        <div>
+            <span class="hide" id="error">404 - Insect not found</span>
+        </div>
+
+        <div class= "hide" id="mainCard">
+            <div id="card-left">
+                <h2 id="name"></h2>
+                <img src="" alt="" id="image">
+            </div>
+            <div id="card-right">
+                <div><label for="months" >Months: </label><span id="months"></span></div>
+                <div><label for="time">Time: </label><span  id="time"></span></div>
+                <div><label for="location">Location: </label><span id="location"></span></div>
+                <div><label for="rarity">Rarity: </label><span id="rarity"></span></div>
+            </div>
+        </div>
+
+        <div id="search-bar">
+            <input type="text" placeholder="Enter critter name" id="insect">
+            <button for="inputName" id="search-button">Search</button>
+        </div>
+
+        <div id="search-history">
+        </div>
+        
+        
+
+    </main>
+
+    
+</body>
+</html>
